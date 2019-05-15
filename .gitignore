@@ -26,6 +26,7 @@ hs_err_pid*
 
 # Custom #
 target/
+src/main/webapp/WEB-INF/lib
 .idea/
 *.iml
 
