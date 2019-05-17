@@ -1,0 +1,1 @@
+CREATE DATABASE "linkind" WITH OWNER = "postgres" TEMPLATE = "postgres" ENCODING = 'UTF8';
