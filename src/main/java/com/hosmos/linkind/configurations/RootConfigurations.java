@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ImportResource;
 
 @Configuration
 @ImportResource("classpath:springSecurityConfig.xml")
-
-@Import(value = {SecurityConfigurations.class, MvcConfigurations.class})
+@Import(value = {TransactionConfigurations.class, SecurityConfigurations.class})
 public class RootConfigurations {
+
 }

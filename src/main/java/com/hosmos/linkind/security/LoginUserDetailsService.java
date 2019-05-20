@@ -2,9 +2,12 @@ package com.hosmos.linkind.security;
 
 import com.hosmos.linkind.models.UserWithPassword;
 import com.hosmos.linkind.services.UserService;
+import com.thoughtworks.xstream.converters.basic.NullConverter;
+import org.apache.ibatis.session.SqlSessionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,18 +26,20 @@ public class LoginUserDetailsService implements UserDetailsService {
         this.userService = userService;
     }
 
-
-
     // *********************** methods ***********************
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         logger.trace("START_AUTHENTICATION.[USERNAME:" + username + "]");
         UserWithPassword loadedUser;
         try {
-            loadedUser = new UserWithPassword();
+            loadedUser = userService.getWithUsername(username);
+
+            if (loadedUser.getActivationDate() == null) {
+                throw new UsernameNotFoundException("نام کاربری یافت نشد.");
+            }
 
             logger.info("AUTHENTICATION_SUCCESSFUL.[USERNAME:" + username + "]");
-        } catch (Exception e) {
+        } catch (SqlSessionException e) {
             logger.error("AUTHENTICATION_FAILED.[USERNAME:" + username + "]", e);
             throw new UsernameNotFoundException("نام کاربری یافت نشد.");
         }
