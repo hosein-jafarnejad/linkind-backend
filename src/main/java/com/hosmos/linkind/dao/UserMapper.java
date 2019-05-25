@@ -6,6 +6,6 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.SqlSessionException;
 
 public interface UserMapper {
-    @Select("SELECT * FROM USERS WHERE MAIL = #{mail}")
+    @Select("SELECT * FROM linkind.public.USERS WHERE MAIL = #{mail}")
     UserWithPassword getUser(@Param("mail") String mail) throws SqlSessionException;
 }

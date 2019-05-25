@@ -33,6 +33,10 @@ public class TransactionConfigurations implements EnvironmentAware {
     @Bean(destroyMethod = "close")
     public ComboPooledDataSource dataSource () throws PropertyVetoException {
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
+//        logger.trace("Driver class: " + environment.getProperty("connection.driver_class"));
+//        logger.trace("URL: " + environment.getProperty("connection.url"));
+//        logger.trace("Username: " + environment.getProperty("connection.username"));
+//        logger.trace("Password: " + environment.getProperty("connection.password"));
         dataSource.setDriverClass(environment.getProperty("connection.driver_class"));
         dataSource.setJdbcUrl(environment.getProperty("connection.url"));
         dataSource.setUser(environment.getProperty("connection.username"));

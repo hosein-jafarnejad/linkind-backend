@@ -5,6 +5,7 @@ import com.hosmos.linkind.models.UserWithPassword;
 import org.apache.ibatis.session.SqlSessionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class UserServiceImpl implements UserService{
@@ -19,6 +20,7 @@ public class UserServiceImpl implements UserService{
     // *********************** methods ***********************
 
     @Override
+    @Transactional(readOnly = true)
     public UserWithPassword getWithUsername(String username) throws SqlSessionException {
         return userMapper.getUser(username);
     }
