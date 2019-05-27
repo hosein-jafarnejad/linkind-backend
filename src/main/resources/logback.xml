@@ -7,14 +7,9 @@
         </encoder>
     </appender>
 
-<!--    <logger name="org.springframework" level="TRACE" additivity="false">-->
-<!--        <appender-ref ref="STDOUT"/>-->
-<!--    </logger>-->
-
-<!--    <logger name="org.hibernate" level="ALL"-->
-<!--            additivity="false">-->
-<!--        <appender-ref ref="STDOUT"/>-->
-<!--    </logger>-->
+    <logger name="org.springframework" level="ALL" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
 
     <logger name="com.hosmos.linkind" level="ALL"
             additivity="false">
