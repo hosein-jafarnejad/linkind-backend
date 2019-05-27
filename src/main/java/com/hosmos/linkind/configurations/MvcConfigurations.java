@@ -1,5 +1,6 @@
 package com.hosmos.linkind.configurations;
 
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebMvc
-//@ComponentScan("ir.projects.learner.controllers")
+@ComponentScan("com.hosmos.linkind.controller")
 public class MvcConfigurations extends WebMvcConfigurerAdapter {
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {

@@ -56,8 +56,6 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        System.out.println("PASSWORD: " + bCryptPasswordEncoder().encode("admin"));
-
         auth.userDetailsService(loginUserDetailsService()).passwordEncoder(bCryptPasswordEncoder());
     }
 

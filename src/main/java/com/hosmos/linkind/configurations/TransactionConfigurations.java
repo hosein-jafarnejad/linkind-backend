@@ -2,6 +2,7 @@ package com.hosmos.linkind.configurations;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import java.beans.PropertyVetoException;
 
 @Configuration
 @EnableTransactionManagement
+@MapperScan("com.hosmos.linkind.dao")
 @ComponentScan(basePackages = {"com.hosmos.linkind.dao", "com.hosmos.linkind.services"})
 @PropertySource("classpath:application.properties")
 public class TransactionConfigurations implements EnvironmentAware {
