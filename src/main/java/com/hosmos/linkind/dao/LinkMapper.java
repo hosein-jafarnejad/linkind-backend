@@ -1,6 +1,7 @@
 package com.hosmos.linkind.dao;
 
 import com.hosmos.linkind.models.Link;
+import com.hosmos.linkind.models.Visit;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
@@ -18,8 +19,8 @@ public interface LinkMapper {
     @Select("SELECT * FROM LINKS WHERE ID = #{id}")
     Link getWithId(@Param("id") int id);
 
-    @Select("SELECT URL FROM LINKS WHERE SHORT_URL = #{short_url}")
-    String getWithShortUrl(@Param("short_url") String shortUrl);
+    @Select("SELECT ID,URL FROM LINKS WHERE SHORT_URL = #{short_url}")
+    Link getWithShortUrl(@Param("short_url") String shortUrl);
 
     @Delete("DELETE FROM LINKS WHERE ID = #{id}")
     int delete(@Param("id") int id);
@@ -31,4 +32,7 @@ public interface LinkMapper {
             " CREATION_DATE"+
             " FROM LINKS ORDER BY CREATION_DATE LIMIT #{limit} OFFSET #{offset}")
     List<Link> getLinks(@Param("limit") int limit, @Param("offset") int offset);
+
+    @Insert("INSERT INTO VISITS(IP, LINK_ID, BROWSER_NAME, BROWSER_VERSION, OS) VALUES(#{visit.ip}, #{visit.link_id}, #{visit.browser_name}, #{visit.browser_version}, #{visit.os})")
+    void saveVisit (@Param("visit") Visit visit);
 }

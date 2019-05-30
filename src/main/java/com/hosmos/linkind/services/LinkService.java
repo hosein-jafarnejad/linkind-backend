@@ -1,7 +1,6 @@
 package com.hosmos.linkind.services;
 
 import com.hosmos.linkind.models.Link;
-import org.apache.ibatis.session.SqlSessionException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,4 +16,6 @@ public interface LinkService {
     List<Link> getLinks(int page, int rowsPerPage);
 
     void delete(int id);
+
+    String visit(String url, String remoteAddr, String userAgent);
 }

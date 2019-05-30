@@ -2,9 +2,9 @@ package com.hosmos.linkind.services;
 
 import com.hosmos.linkind.dao.LinkMapper;
 import com.hosmos.linkind.models.Link;
+import com.hosmos.linkind.models.Visit;
 import com.hosmos.linkind.utils.LinkShortener;
-import org.apache.ibatis.session.SqlSessionException;
-import org.postgresql.util.PSQLException;
+import com.hosmos.linkind.utils.UserAgentExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,15 +77,15 @@ public class LinkServiceImpl implements LinkService {
     @Transactional(readOnly = true)
     public String get(String shortUrl) {
         logger.trace(String.format("START... [SHORT_URL: %s]", shortUrl));
-        String address = linkMapper.getWithShortUrl(shortUrl);
+        Link link = linkMapper.getWithShortUrl(shortUrl);
 
-        if (address == null) {
+        if (link == null) {
             logger.trace("Link does not exist.");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
         logger.trace("Address fetched. END...");
-        return address;
+        return link.getUrl();
     }
 
     @Override
@@ -107,5 +107,37 @@ public class LinkServiceImpl implements LinkService {
         if (linkMapper.delete(id) == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @Override
+    public String visit(String url, String remoteAddr, String userAgent) {
+        logger.trace(String.format("START... [SHORT_URL: %s]", userAgent));
+        Link link = linkMapper.getWithShortUrl(url);
+
+        if (link == null) {
+            logger.trace("Link does not exist.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        logger.trace(String.format("Set visit flag for visitor.[User-Agent: %s]", userAgent));
+        Visit visit = new Visit();
+        visit.setIp(remoteAddr);
+        visit.setBrowser_name(UserAgentExtractor.getBrowserName(userAgent));
+
+        try {
+            visit.setBrowser_version(UserAgentExtractor.getBrowserVersion(userAgent));
+        } catch (Exception e) {
+            e.printStackTrace();
+            visit.setBrowser_version("Unknown");
+        }
+
+        visit.setOs(UserAgentExtractor.getOs(userAgent));
+        visit.setLink_id(link.getId());
+
+        logger.trace(String.format("visitor details. [Ip: %s][browser_name: %s][browser_version: %s][os: %s]", visit.getIp(), visit.getBrowser_name(), visit.getBrowser_version(), visit.getOs()));
+        linkMapper.saveVisit(visit);
+
+        logger.trace("Address fetched. END...");
+        return link.getUrl();
     }
 }

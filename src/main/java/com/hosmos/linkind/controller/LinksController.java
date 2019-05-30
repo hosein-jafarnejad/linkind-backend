@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +51,11 @@ public class LinksController {
         } else {
             return linkService.getLinks(1, 10);
         }
+    }
+
+    @GetMapping("/visit/{shortUrl}")
+    public String visit(@PathVariable(name = "shortUrl") String shortUrl, HttpServletRequest request) {
+        return linkService.visit(shortUrl, request.getRemoteAddr(), request.getHeader("User-Agent"));
     }
 
 }
