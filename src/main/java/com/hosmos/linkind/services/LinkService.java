@@ -7,7 +7,7 @@ import java.util.List;
 
 @Service("linkService")
 public interface LinkService {
-    void save(String address);
+    void save(Link address);
 
     Link get(int id);
 
@@ -17,5 +17,5 @@ public interface LinkService {
 
     void delete(int id);
 
-    String visit(String url, String remoteAddr, String userAgent);
+    String visit(String shortUrl, String remoteAddr, String userAgent);
 }

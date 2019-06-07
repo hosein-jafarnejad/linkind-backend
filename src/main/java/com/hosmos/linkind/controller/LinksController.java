@@ -23,8 +23,8 @@ public class LinksController {
     }
 
     @PostMapping
-    public ResponseEntity saveLink (@RequestParam("address") String address) {
-        linkService.save(address);
+    public ResponseEntity saveLink (@RequestBody Link link) {
+        linkService.save(link);
 
         return ResponseEntity.ok().body(null);
     }

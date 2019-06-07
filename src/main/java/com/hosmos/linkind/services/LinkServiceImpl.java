@@ -22,6 +22,12 @@ import java.util.List;
 public class LinkServiceImpl implements LinkService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    private TagService tagService;
+
+    @Autowired
+    public void setTagService(TagService tagService) {
+        this.tagService = tagService;
+    }
 
     private LinkMapper linkMapper;
 
@@ -32,21 +38,22 @@ public class LinkServiceImpl implements LinkService {
 
     @Override
     @Transactional
-    public void save(String address) {
+    public void save(Link link) {
         logger.trace("START...");
 
-        Link link = new Link();
         // TODO replace with spring security context user id
         link.setOwner(1);
-        link.setUrl(address);
         link.setShort_url(LinkShortener.makeShort());
 
         try {
-            linkMapper.save(link);
+            long linkId = linkMapper.save(link);
+            List<Long> tagsIds = tagService.saveTags(link.getTags());
+            System.out.println(link);
+            tagService.saveTagsRelations(tagsIds, linkId);
         } catch (DuplicateKeyException e) {
             if (e.getCause().getMessage().contains("u_short_url")) {
                 logger.trace(String.format("DuplicateKeyException: u_short_url. [short_url: %s]", link.getShort_url()));
-                this.save(address);
+                this.save(link);
             }
         } catch (DataIntegrityViolationException e2) {
             if (e2.getCause().getMessage().contains("f_owner")) {
@@ -110,9 +117,9 @@ public class LinkServiceImpl implements LinkService {
     }
 
     @Override
-    public String visit(String url, String remoteAddr, String userAgent) {
+    public String visit(String shortUrl, String remoteAddr, String userAgent) {
         logger.trace(String.format("START... [SHORT_URL: %s]", userAgent));
-        Link link = linkMapper.getWithShortUrl(url);
+        Link link = linkMapper.getWithShortUrl(shortUrl);
 
         if (link == null) {
             logger.trace("Link does not exist.");
