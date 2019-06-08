@@ -7,6 +7,7 @@ import org.springframework.dao.DuplicateKeyException;
 
 import java.util.List;
 
+@Mapper
 public interface TagMapper {
 
     @SelectKey(before = true, statement = "SELECT nextval('STAGS')", resultType = long.class, keyProperty = "id", keyColumn = "id")

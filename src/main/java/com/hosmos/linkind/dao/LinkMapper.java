@@ -3,20 +3,26 @@ package com.hosmos.linkind.dao;
 import com.hosmos.linkind.models.Link;
 import com.hosmos.linkind.models.Visit;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.StatementType;
 import org.springframework.dao.DuplicateKeyException;
 
 import java.util.List;
 
+@Mapper
 public interface LinkMapper {
+
+    @Select("SELECT nextval('SLINKS')")
+    long getId();
 
     /**
      * Save new link
      *
      * @param link
      * */
-    @Insert({"INSERT INTO LINKS(ID, URL, OWNER, SHORT_URL) VALUES(#{id}, #{link.url}, #{link.owner}, #{link.short_url})"})
-    @SelectKey(statement = "SELECT nextval('SLINKS') AS id", before = true, keyProperty = "id", keyColumn = "id", resultType = long.class)
-    long save(@Param("link") Link link) throws DuplicateKeyException;
+    @Insert( value = {"INSERT INTO LINKS(ID, URL, OWNER, SHORT_URL) VALUES(#{link.id}, #{link.url}, #{link.owner}, #{link.short_url})"})
+//    @Options(keyProperty = "id", flushCache = Options.FlushCachePolicy.TRUE)
+//    @SelectKey(statement = "SELECT nextval('SLINKS')", before = true, keyProperty = "id", resultType = Long.class)
+    void save(@Param("link") Link link) throws DuplicateKeyException;
 
     /**
      * returns information about link
@@ -30,7 +36,7 @@ public interface LinkMapper {
             @Result(property = "owner", column = "owner"),
             @Result(property = "short_url", column = "short_url"),
             @Result(property = "creation_date", column = "creation_date"),
-            @Result(property = "tags", javaType = List.class, column = "id", many = @Many(select = "getTags"))
+            @Result(property = "tags", javaType = String[].class, column = "id", many = @Many(select = "getTags"))
     })
     Link getWithId(@Param("id") int id);
 

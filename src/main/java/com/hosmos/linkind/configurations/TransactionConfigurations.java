@@ -19,7 +19,6 @@ import java.beans.PropertyVetoException;
 
 @Configuration
 @EnableTransactionManagement
-@MapperScan("com.hosmos.linkind.dao")
 @ComponentScan(basePackages = {"com.hosmos.linkind.dao", "com.hosmos.linkind.services"})
 @PropertySource("classpath:application.properties")
 public class TransactionConfigurations implements EnvironmentAware {
@@ -66,7 +65,6 @@ public class TransactionConfigurations implements EnvironmentAware {
     }
 
     @Bean
-    @Scope("singleton")
     public SqlSessionFactoryBean sqlSessionFactoryBean () throws PropertyVetoException {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource());

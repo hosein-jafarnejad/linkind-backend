@@ -46,10 +46,10 @@ public class LinkServiceImpl implements LinkService {
         link.setShort_url(LinkShortener.makeShort());
 
         try {
-            long linkId = linkMapper.save(link);
+            link.setId(linkMapper.getId());
+            linkMapper.save(link);
             List<Long> tagsIds = tagService.saveTags(link.getTags());
-            System.out.println(link);
-            tagService.saveTagsRelations(tagsIds, linkId);
+            tagService.saveTagsRelations(tagsIds, link.getId());
         } catch (DuplicateKeyException e) {
             if (e.getCause().getMessage().contains("u_short_url")) {
                 logger.trace(String.format("DuplicateKeyException: u_short_url. [short_url: %s]", link.getShort_url()));
