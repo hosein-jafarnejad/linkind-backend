@@ -26,9 +26,10 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .exceptionHandling()
-                .authenticationEntryPoint(restAuthenticationEntryPoint())
-                .and()
+//
+//                .exceptionHandling()
+//                .authenticationEntryPoint(restAuthenticationEntryPoint())
+//                .and()
 
                 // URL access management
                 .authorizeRequests()
@@ -81,7 +82,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     }
 
     @PostConstruct
-    public void init () {
+    public void init() {
         logger.info("Security initialized.");
     }
 

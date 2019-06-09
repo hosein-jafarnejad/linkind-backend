@@ -11,8 +11,8 @@ import java.util.List;
 
 public interface LinkMapper {
     @Insert("INSERT INTO " +
-            "LINKS(ID, URL, OWNER, SHORT_URL) " +
-            "VALUES(nextval('SLINKS'), #{link.url}, #{link.owner}, #{link.short_url})")
+            "LINKS(ID, URL, OWNER, SHORT_URL, CREATION_DATE) " +
+            "VALUES(nextval('SLINKS'), #{link.url}, #{link.owner}, #{link.short_url}, #{link.creation_date})")
     void save(@Param("link") Link link) throws DuplicateKeyException;
 
     @Select("SELECT * FROM LINKS WHERE ID = #{id}")

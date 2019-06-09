@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Date;
 import java.util.List;
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
@@ -40,7 +41,7 @@ public class LinkServiceImpl implements LinkService {
         link.setOwner(1);
         link.setUrl(address);
         link.setShort_url(LinkShortener.makeShort());
-
+        link.setCreation_date(new Date());
         try {
             linkMapper.save(link);
         } catch (DuplicateKeyException e) {
@@ -70,6 +71,8 @@ public class LinkServiceImpl implements LinkService {
         }
 
         logger.trace("Link fetched. END...");
+        System.out.println("------------------------------------ LinkServiceImpl " + link.getUrl());
+
         return link;
     }
 
