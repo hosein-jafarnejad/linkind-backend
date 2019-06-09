@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public UserWithPassword getWithUsername(String username) throws SqlSessionException {
         UserWithPassword userWithPassword = userMapper.getUser(username);
-        System.out.println("------------------------------------ UserServiceImpl " + userWithPassword.getNickname());
+        System.out.println("------------------------------------ UserServiceImpl " + userWithPassword.toString());
         return userWithPassword;
     }
 }

@@ -21,7 +21,6 @@ public interface LinkMapper {
     @Insert(value = {"INSERT INTO LINKS(ID, URL, OWNER, SHORT_URL) VALUES(#{link.id}, #{link.url}, #{link.owner}, #{link.short_url})"})
 //    @Options(keyProperty = "id", flushCache = Options.FlushCachePolicy.TRUE)
 //    @SelectKey(statement = "SELECT nextval('SLINKS')", before = true, keyProperty = "id", resultType = Long.class)
-
     void save(@Param("link") Link link) throws DuplicateKeyException;
 
     /**
