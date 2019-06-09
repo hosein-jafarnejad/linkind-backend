@@ -3,7 +3,6 @@ package com.hosmos.linkind.models;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import java.util.Date;
-import java.util.List;
 
 public class Link {
     private long id;

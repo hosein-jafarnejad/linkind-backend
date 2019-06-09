@@ -6,7 +6,7 @@
 <configuration>
     <settings>
         <!-- changes from the defaults -->
-        <setting name="lazyLoadingEnabled" value="false" />
+        <setting name="lazyLoadingEnabled" value="false"/>
     </settings>
     <typeAliases>
         <typeAlias type="com.hosmos.linkind.models.UserWithPassword" alias="userWithPassword"/>

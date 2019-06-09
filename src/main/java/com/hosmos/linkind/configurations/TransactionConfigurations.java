@@ -2,13 +2,15 @@ package com.hosmos.linkind.configurations;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.EnvironmentAware;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -32,7 +34,7 @@ public class TransactionConfigurations implements EnvironmentAware {
     }
 
     @Bean(destroyMethod = "close")
-    public ComboPooledDataSource dataSource () throws PropertyVetoException {
+    public ComboPooledDataSource dataSource() throws PropertyVetoException {
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
 //        logger.trace("Driver class: " + environment.getProperty("connection.driver_class"));
 //        logger.trace("URL: " + environment.getProperty("connection.url"));
@@ -51,21 +53,21 @@ public class TransactionConfigurations implements EnvironmentAware {
     }
 
     @Bean
-    public DataSourceTransactionManager transactionManager () throws PropertyVetoException {
+    public DataSourceTransactionManager transactionManager() throws PropertyVetoException {
         DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
         dataSourceTransactionManager.setDataSource(dataSource());
         return dataSourceTransactionManager;
     }
 
     @Bean
-    public MapperScannerConfigurer mapperScannerConfigurer () {
+    public MapperScannerConfigurer mapperScannerConfigurer() {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setBasePackage("com.hosmos.linkind.dao");
         return mapperScannerConfigurer;
     }
 
     @Bean
-    public SqlSessionFactoryBean sqlSessionFactoryBean () throws PropertyVetoException {
+    public SqlSessionFactoryBean sqlSessionFactoryBean() throws PropertyVetoException {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource());
         sqlSessionFactoryBean.setConfigLocation(new ClassPathResource("sqlmap-config.xml"));
@@ -73,7 +75,7 @@ public class TransactionConfigurations implements EnvironmentAware {
     }
 
     @PostConstruct
-    public void init () {
+    public void init() {
         logger.info("Transactions initialized.");
     }
 }

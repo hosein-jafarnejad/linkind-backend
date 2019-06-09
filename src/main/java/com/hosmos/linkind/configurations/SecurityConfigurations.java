@@ -1,7 +1,7 @@
 package com.hosmos.linkind.configurations;
 
-import com.hosmos.linkind.security.RestAuthenticationEntryPoint;
 import com.hosmos.linkind.security.LoginUserDetailsService;
+import com.hosmos.linkind.security.RestAuthenticationEntryPoint;
 import com.hosmos.linkind.security.RestAuthenticationSuccessHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,7 +81,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     }
 
     @PostConstruct
-    public void init () {
+    public void init() {
         logger.info("Security initialized.");
     }
 

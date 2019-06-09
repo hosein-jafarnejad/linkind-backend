@@ -10,17 +10,17 @@ public interface TagService {
 
     void save(String tag);
 
-    Tag get (int id);
+    Tag get(int id);
 
     List<Long> saveTags(String[] tags);
 
-    List<Tag> getTags ();
+    List<Tag> getTags();
 
-    void delete (String name);
+    void delete(String name);
 
-    void delete (Long id);
+    void delete(Long id);
 
-    void deleteTags (String[] tags);
+    void deleteTags(String[] tags);
 
     void saveTagsRelations(List<Long> tagsIds, long linkId);
 }

@@ -23,19 +23,19 @@ public class LinksController {
     }
 
     @PostMapping
-    public ResponseEntity saveLink (@RequestBody Link link) {
+    public ResponseEntity saveLink(@RequestBody Link link) {
         linkService.save(link);
 
         return ResponseEntity.ok().body(null);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteLink (@PathVariable(name = "id") int id) {
+    public void deleteLink(@PathVariable(name = "id") int id) {
         linkService.delete(id);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Link getLink (@PathVariable(name = "id") int id) {
+    public Link getLink(@PathVariable(name = "id") int id) {
         return linkService.get(id);
     }
 
@@ -45,7 +45,7 @@ public class LinksController {
     }
 
     @GetMapping(value = {"/{page}/{rowsPerPage}", "/"})
-    public List<Link> getLinks (@PathVariable(name = "page") Optional<Integer> page, @PathVariable(name = "rowsPerPage") Optional<Integer> rowsPerPage) {
+    public List<Link> getLinks(@PathVariable(name = "page") Optional<Integer> page, @PathVariable(name = "rowsPerPage") Optional<Integer> rowsPerPage) {
         if (page.isPresent() && rowsPerPage.isPresent()) {
             return linkService.getLinks(page.get(), rowsPerPage.get());
         } else {

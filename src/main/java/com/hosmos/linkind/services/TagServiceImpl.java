@@ -17,7 +17,7 @@ import java.util.List;
 
 @SuppressWarnings("ALL")
 @Component
-public class TagServiceImpl implements TagService{
+public class TagServiceImpl implements TagService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private TagMapper tagMapper;
@@ -61,7 +61,7 @@ public class TagServiceImpl implements TagService{
 
         List<Long> newTagsId = new ArrayList<>();
 
-        for (Tag tag: existingTags) {
+        for (Tag tag : existingTags) {
             newTagsId.add(tag.getId());
         }
 
@@ -70,10 +70,10 @@ public class TagServiceImpl implements TagService{
             return newTagsId;
         }
 
-        for (String tag: tags) {
+        for (String tag : tags) {
             boolean newTag = true;
 
-            for (Tag extTag: existingTags) {
+            for (Tag extTag : existingTags) {
                 if (tag.equals(extTag.getName())) {
                     newTag = false;
                 }
@@ -129,7 +129,7 @@ public class TagServiceImpl implements TagService{
     public void saveTagsRelations(List<Long> tagsIds, long linkId) {
         System.out.println(tagsIds);
         System.out.println(linkId);
-        for (Long tagId: tagsIds) {
+        for (Long tagId : tagsIds) {
             tagMapper.saveTagRelation(tagId, linkId);
         }
     }

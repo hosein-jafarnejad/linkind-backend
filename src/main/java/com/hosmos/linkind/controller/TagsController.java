@@ -2,12 +2,9 @@ package com.hosmos.linkind.controller;
 
 import com.hosmos.linkind.models.Tag;
 import com.hosmos.linkind.services.TagService;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -27,7 +24,7 @@ public class TagsController {
     }
 
     @GetMapping
-    public Tag get (@RequestParam("id") int id) {
+    public Tag get(@RequestParam("id") int id) {
         return tagService.get(id);
     }
 
@@ -37,18 +34,22 @@ public class TagsController {
     }
 
     @GetMapping("/stream")
-    public List<Tag> getTags () {
+    public List<Tag> getTags() {
         return tagService.getTags();
     }
 
     @DeleteMapping
-    public void delete (@RequestParam("name") String name) { tagService.delete(name);}
+    public void delete(@RequestParam("name") String name) {
+        tagService.delete(name);
+    }
 
-    @DeleteMapping("/id")
-    public void deleteById (@RequestParam("id") long id) {
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable("id") long id) {
         tagService.delete(id);
     }
 
     @DeleteMapping("/stream")
-    public void deleteTags (@RequestBody String[] tags) { tagService.deleteTags(tags);}
+    public void deleteTags(@RequestBody String[] tags) {
+        tagService.deleteTags(tags);
+    }
 }

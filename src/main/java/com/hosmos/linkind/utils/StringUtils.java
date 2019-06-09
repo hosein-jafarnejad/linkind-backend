@@ -1,7 +1,5 @@
 package com.hosmos.linkind.utils;
 
-import org.springframework.util.ObjectUtils;
-
 public class StringUtils {
 
     public static String arrayToInAcceptableString(String[] arr) {
