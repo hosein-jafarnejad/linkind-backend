@@ -12,6 +12,7 @@ public class Link {
     private long owner;
     private String short_url;
     private Date creation_date;
+    private String[] tags;
 
     public long getId() {
         return id;
@@ -51,5 +52,25 @@ public class Link {
 
     public void setCreation_date(Date creation_date) {
         this.creation_date = creation_date;
+    }
+
+    public String[] getTags() {
+        return tags;
+    }
+
+    public void setTags(String[] tags) {
+        this.tags = tags;
+    }
+
+    @Override
+    public String toString() {
+        return "Link{" +
+                "id=" + id +
+                ", url='" + url + '\'' +
+                ", owner=" + owner +
+                ", short_url='" + short_url + '\'' +
+                ", creation_date=" + creation_date +
+                ", tags=" + tags +
+                '}';
     }
 }

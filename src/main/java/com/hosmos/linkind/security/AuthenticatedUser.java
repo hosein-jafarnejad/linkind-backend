@@ -3,11 +3,9 @@ package com.hosmos.linkind.security;
 import com.hosmos.linkind.models.UserWithPassword;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
 
 public class AuthenticatedUser implements UserDetails, CredentialsContainer {
 

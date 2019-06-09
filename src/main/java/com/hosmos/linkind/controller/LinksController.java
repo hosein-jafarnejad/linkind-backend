@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,23 +23,21 @@ public class LinksController {
     }
 
     @PostMapping
-    public ResponseEntity saveLink (@RequestParam("address") String address) {
-        linkService.save(address);
+    public ResponseEntity saveLink(@RequestBody Link link) {
+        linkService.save(link);
 
         return ResponseEntity.ok().body(null);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteLink (@PathVariable(name = "id") int id) {
+    public void deleteLink(@PathVariable(name = "id") int id) {
         linkService.delete(id);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Link getLink (@PathVariable(name = "id") int id) {
-        Link link = linkService.get(id);
-        System.out.println("------------------------------------ LinksController " + link.getUrl());
+    public Link getLink(@PathVariable(name = "id") int id) {
+        return linkService.get(id);
 
-        return link;
     }
 
     @GetMapping(value = "/address/{shortUrl}")
@@ -47,12 +46,17 @@ public class LinksController {
     }
 
     @GetMapping(value = {"/{page}/{rowsPerPage}", "/"})
-    public List<Link> getLinks (@PathVariable(name = "page") Optional<Integer> page, @PathVariable(name = "rowsPerPage") Optional<Integer> rowsPerPage) {
+    public List<Link> getLinks(@PathVariable(name = "page") Optional<Integer> page, @PathVariable(name = "rowsPerPage") Optional<Integer> rowsPerPage) {
         if (page.isPresent() && rowsPerPage.isPresent()) {
             return linkService.getLinks(page.get(), rowsPerPage.get());
         } else {
             return linkService.getLinks(1, 10);
         }
+    }
+
+    @GetMapping("/visit/{shortUrl}")
+    public String visit(@PathVariable(name = "shortUrl") String shortUrl, HttpServletRequest request) {
+        return linkService.visit(shortUrl, request.getRemoteAddr(), request.getHeader("User-Agent"));
     }
 
 }

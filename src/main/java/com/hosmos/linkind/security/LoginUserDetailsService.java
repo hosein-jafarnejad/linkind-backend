@@ -2,12 +2,10 @@ package com.hosmos.linkind.security;
 
 import com.hosmos.linkind.models.UserWithPassword;
 import com.hosmos.linkind.services.UserService;
-import com.thoughtworks.xstream.converters.basic.NullConverter;
 import org.apache.ibatis.session.SqlSessionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
