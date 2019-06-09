@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Component
 public class UserServiceImpl implements UserService {
 
@@ -22,6 +23,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public UserWithPassword getWithUsername(String username) throws SqlSessionException {
-        return userMapper.getUser(username);
+        UserWithPassword userWithPassword = userMapper.getUser(username);
+        System.out.println("------------------------------------ UserServiceImpl " + userWithPassword.getNickname());
+        return userWithPassword;
     }
 }

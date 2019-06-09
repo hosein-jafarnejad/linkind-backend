@@ -39,6 +39,7 @@ public class LinksController {
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Link getLink(@PathVariable(name = "id") int id) {
         return linkService.get(id);
+
     }
 
     @GetMapping(value = "/address/{shortUrl}")

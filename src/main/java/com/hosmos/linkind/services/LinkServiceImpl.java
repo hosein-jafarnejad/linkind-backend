@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Date;
 import java.util.List;
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
@@ -44,7 +45,7 @@ public class LinkServiceImpl implements LinkService {
         // TODO replace with spring security context user id
         link.setOwner(1);
         link.setShort_url(LinkShortener.makeShort());
-
+        link.setCreation_date(new Date());
         try {
             link.setId(linkMapper.getId());
             linkMapper.save(link);
@@ -77,6 +78,8 @@ public class LinkServiceImpl implements LinkService {
         }
 
         logger.trace("Link fetched. END...");
+        System.out.println("------------------------------------ LinkServiceImpl " + link.getUrl());
+
         return link;
     }
 
