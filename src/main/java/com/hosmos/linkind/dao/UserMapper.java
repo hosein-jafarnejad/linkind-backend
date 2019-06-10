@@ -19,6 +19,7 @@ public interface UserMapper {
             @Result(property = "activationDate", column = "activationDate")
     })
 
-    @Select("SELECT * FROM linkind.public.USERS WHERE MAIL = #{mail}")
+    @Select("SELECT ID, MAIL, NICKNAME, CREATIONDATE, ACTIVATIONDATE FROM " +
+            "linkind.public.USERS WHERE MAIL = #{mail}")
     UserWithPassword getUser(@Param("mail") String mail) throws SqlSessionException;
 }
