@@ -57,4 +57,16 @@ public class UserWithPassword {
     public void setActivationDate(Date activationDate) {
         this.activationDate = activationDate;
     }
+
+    @Override
+    public String toString() {
+        return "UserWithPassword{" +
+                "id=" + id +
+                ", mail='" + mail + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", password='" + password + '\'' +
+                ", creationDate=" + creationDate +
+                ", activationDate=" + activationDate +
+                '}';
+    }
 }

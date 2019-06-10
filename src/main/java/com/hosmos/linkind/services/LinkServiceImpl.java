@@ -45,7 +45,7 @@ public class LinkServiceImpl implements LinkService {
         // TODO replace with spring security context user id
         link.setOwner(1);
         link.setShort_url(LinkShortener.makeShort());
-        link.setCreation_date(new Date());
+
         try {
             link.setId(linkMapper.getId());
             linkMapper.save(link);

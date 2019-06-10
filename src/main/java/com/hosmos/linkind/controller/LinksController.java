@@ -1,11 +1,13 @@
 package com.hosmos.linkind.controller;
 
+import com.hosmos.linkind.models.IpDetail;
 import com.hosmos.linkind.models.Link;
 import com.hosmos.linkind.services.LinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -37,7 +39,6 @@ public class LinksController {
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Link getLink(@PathVariable(name = "id") int id) {
         return linkService.get(id);
-
     }
 
     @GetMapping(value = "/address/{shortUrl}")
@@ -59,4 +60,9 @@ public class LinksController {
         return linkService.visit(shortUrl, request.getRemoteAddr(), request.getHeader("User-Agent"));
     }
 
+
+    public static void main(String[] args) {
+        RestTemplate restTemplate = new RestTemplate();
+        System.out.println(restTemplate.getForObject("http://ip-api.com/json/24.48.0.1", IpDetail.class).toString());
+    }
 }
