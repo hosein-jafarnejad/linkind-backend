@@ -32,26 +32,26 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 //                .and()
 
                 // URL access management
-//                .authorizeRequests()
-//                .antMatchers("/user/new", "/user/activate/**").permitAll()
+                .authorizeRequests()
+                .antMatchers("/user/new", "/user/activate/**").permitAll()
 //                .antMatchers("/accessnode/**").access("isAuthenticated() and authentication.principal.isAdmin()")
 //                .antMatchers("/user/**", "/role/**").authenticated()
 //                .access("hasAnyRole('ROLE_ADMIN_LEVEL_ONE','ROLE-ADMIN_LEVEL_TWO') or authentication.principal.isAdmin()")
 
-//                .anyRequest().permitAll()
-//                .and()
+                .anyRequest().permitAll()
+                .and()
 
                 // Login
                 .formLogin()
                 .loginProcessingUrl("/login")
-                .usernameParameter("username").passwordParameter("password")
-                .successHandler(restAuthenticationSuccessHandler())
-                .failureHandler(new SimpleUrlAuthenticationFailureHandler())
+                .usernameParameter("username").passwordParameter("password");
+                //.successHandler(restAuthenticationSuccessHandler())
+               // .failureHandler(new SimpleUrlAuthenticationFailureHandler())
 //                .permitAll()
-                .and()
+//                .and()
 
                 // Logout settings
-                .logout();
+//                .logout();
 //                .permitAll();
     }
 

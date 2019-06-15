@@ -6,5 +6,8 @@ import org.springframework.stereotype.Service;
 
 @Service("userService")
 public interface UserService {
-    UserWithPassword getWithUsername(String username) throws SqlSessionException;
+
+    UserWithPassword getWithUsername(String username);
+
+    void createNewUser(UserWithPassword userWithPassword);
 }
