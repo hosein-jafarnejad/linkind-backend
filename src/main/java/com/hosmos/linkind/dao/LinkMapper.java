@@ -1,5 +1,6 @@
 package com.hosmos.linkind.dao;
 
+import com.hosmos.linkind.models.IpDetail;
 import com.hosmos.linkind.models.Link;
 import com.hosmos.linkind.models.Visit;
 import org.apache.ibatis.annotations.*;
@@ -11,8 +12,10 @@ import java.util.List;
 public interface LinkMapper {
 
     @Select("SELECT nextval('SLINKS')")
-    long getId();
+    long getLinkId();
 
+    @Select("SELECT nextval('SVISITS')")
+    long getVisitId();
     /**
      * Save new link
      *
@@ -82,6 +85,9 @@ public interface LinkMapper {
      *
      * @param visit
      */
-    @Insert("INSERT INTO VISITS(IP, LINK_ID, BROWSER_NAME, BROWSER_VERSION, OS) VALUES(#{visit.ip}, #{visit.link_id}, #{visit.browser_name}, #{visit.browser_version}, #{visit.os})")
+    @Insert("INSERT INTO VISITS(ID, IP, LINK_ID, BROWSER_NAME, BROWSER_VERSION, OS) VALUES(#{visit.id}, #{visit.ip}, #{visit.link_id}, #{visit.browser_name}, #{visit.browser_version}, #{visit.os})")
     void saveVisit(@Param("visit") Visit visit);
+
+    @Update("UPDATE VISITS SET COUNTRY_NAME = #{detail.country}, ISO2 = #{detail.countryCode}")
+    void updateCountry(@Param("visitId") long id, @Param("detail") IpDetail detail);
 }

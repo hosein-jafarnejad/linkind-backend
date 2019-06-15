@@ -1,10 +1,11 @@
 package com.hosmos.linkind.services;
 
 import com.hosmos.linkind.dao.LinkMapper;
+import com.hosmos.linkind.models.IpDetail;
 import com.hosmos.linkind.models.Link;
 import com.hosmos.linkind.models.Visit;
 import com.hosmos.linkind.utils.LinkShortener;
-import com.hosmos.linkind.utils.UserAgentExtractor;
+import com.hosmos.linkind.utils.ExtractorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Date;
 import java.util.List;
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
@@ -47,7 +47,7 @@ public class LinkServiceImpl implements LinkService {
         link.setShort_url(LinkShortener.makeShort());
 
         try {
-            link.setId(linkMapper.getId());
+            link.setId(linkMapper.getLinkId());
             linkMapper.save(link);
             List<Long> tagsIds = tagService.saveTags(link.getTags());
             tagService.saveTagsRelations(tagsIds, link.getId());
@@ -131,23 +131,45 @@ public class LinkServiceImpl implements LinkService {
 
         logger.trace(String.format("Set visit flag for visitor.[User-Agent: %s]", userAgent));
         Visit visit = new Visit();
+        visit.setId(linkMapper.getVisitId());
         visit.setIp(remoteAddr);
-        visit.setBrowser_name(UserAgentExtractor.getBrowserName(userAgent));
+        visit.setBrowser_name(ExtractorUtils.getBrowserName(userAgent));
 
         try {
-            visit.setBrowser_version(UserAgentExtractor.getBrowserVersion(userAgent));
+            visit.setBrowser_version(ExtractorUtils.getBrowserVersion(userAgent));
         } catch (Exception e) {
             e.printStackTrace();
             visit.setBrowser_version("Unknown");
         }
 
-        visit.setOs(UserAgentExtractor.getOs(userAgent));
+        visit.setOs(ExtractorUtils.getOs(userAgent));
         visit.setLink_id(link.getId());
 
         logger.trace(String.format("visitor details. [Ip: %s][browser_name: %s][browser_version: %s][os: %s]", visit.getIp(), visit.getBrowser_name(), visit.getBrowser_version(), visit.getOs()));
-        linkMapper.saveVisit(visit);
 
-        logger.trace("Address fetched. END...");
-        return link.getUrl();
+
+        try {
+            linkMapper.saveVisit(visit);
+            return link.getUrl();
+        } finally {
+
+            try {
+                logger.trace(String.format("Extract ip details %s", remoteAddr));
+                IpDetail extractedDetail = ExtractorUtils.findCountry(remoteAddr);
+
+                logger.trace(String.format("Details extracted.[IP: %s] [COUNTRY: %s] [iso2: %s]", remoteAddr, extractedDetail.getCountry(), extractedDetail.getCountryCode()));
+                if (extractedDetail.getStatus().equals("success")) {
+
+                    logger.trace("Update visitor country field");
+                    linkMapper.updateCountry(visit.getId(), extractedDetail);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                logger.error(String.format("Could not extract country name for IP. [IP: %s]", remoteAddr));
+            }
+
+
+        }
     }
 }

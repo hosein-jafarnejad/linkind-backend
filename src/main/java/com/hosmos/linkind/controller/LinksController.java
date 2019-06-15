@@ -59,10 +59,4 @@ public class LinksController {
     public String visit(@PathVariable(name = "shortUrl") String shortUrl, HttpServletRequest request) {
         return linkService.visit(shortUrl, request.getRemoteAddr(), request.getHeader("User-Agent"));
     }
-
-
-    public static void main(String[] args) {
-        RestTemplate restTemplate = new RestTemplate();
-        System.out.println(restTemplate.getForObject("http://ip-api.com/json/24.48.0.1", IpDetail.class).toString());
-    }
 }
