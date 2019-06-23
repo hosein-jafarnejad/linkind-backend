@@ -90,4 +90,13 @@ public interface LinkMapper {
 
     @Update("UPDATE VISITS SET COUNTRY_NAME = #{detail.country}, ISO2 = #{detail.countryCode}")
     void updateCountry(@Param("visitId") long id, @Param("detail") IpDetail detail);
+
+    @Select("SELECT DISTINCT IP FROM VISITS WHERE COUNTRY_NAME IS NULL OR ISO2 IS NULL")
+    List<String> getIpOfVisitorsWithNoIpDetail();
+
+    @Update("UPDATE VISITS SET COUNTRY_NAME = #{detail.country}, ISO2 = #{detail.countryCode} WHERE IP = #{detail.query} AND (COUNTRY_NAME IS NULL OR ISO2 IS NULL)")
+    void updateIpDetail(@Param("detail") IpDetail detail);
+
+    @Delete("DELETE FROM VISITS WHERE IP = #{ip}")
+    void deleteWrongIpFromVisits(@Param("ip") String ip);
 }

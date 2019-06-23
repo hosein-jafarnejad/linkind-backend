@@ -1,13 +1,11 @@
 package com.hosmos.linkind.controller;
 
-import com.hosmos.linkind.models.IpDetail;
 import com.hosmos.linkind.models.Link;
 import com.hosmos.linkind.services.LinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -58,5 +56,10 @@ public class LinksController {
     @GetMapping("/visit/{shortUrl}")
     public String visit(@PathVariable(name = "shortUrl") String shortUrl, HttpServletRequest request) {
         return linkService.visit(shortUrl, request.getRemoteAddr(), request.getHeader("User-Agent"));
+    }
+
+    @PostMapping("/fake")
+    public void insertFakeVisits() {
+        linkService.fakeVisits();
     }
 }

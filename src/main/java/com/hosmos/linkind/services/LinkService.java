@@ -18,4 +18,6 @@ public interface LinkService {
     void delete(int id);
 
     String visit(String shortUrl, String remoteAddr, String userAgent);
+
+    void fakeVisits();
 }

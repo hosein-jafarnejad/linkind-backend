@@ -14,5 +14,6 @@
         <typeAlias type="com.hosmos.linkind.models.Link" alias="link"/>
         <typeAlias type="com.hosmos.linkind.models.Tag" alias="tag"/>
         <typeAlias type="com.hosmos.linkind.models.Visit" alias="visit"/>
+        <typeAlias type="com.hosmos.linkind.models.IpDetail" alias="ipDetail"/>
     </typeAliases>
 </configuration>

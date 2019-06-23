@@ -109,7 +109,6 @@
             <version>${spring-version}</version>
         </dependency>
 
-
         <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
         <dependency>
             <groupId>org.mybatis</groupId>
@@ -206,6 +205,14 @@
             <artifactId>UserAgentUtils</artifactId>
             <version>1.19</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.batch/spring-batch-core -->
+        <dependency>
+            <groupId>org.springframework.batch</groupId>
+            <artifactId>spring-batch-core</artifactId>
+            <version>4.1.2.RELEASE</version>
+        </dependency>
+
 
 
     </dependencies>

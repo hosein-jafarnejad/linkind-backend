@@ -1,11 +1,10 @@
 package com.hosmos.linkind.services;
 
 import com.hosmos.linkind.dao.LinkMapper;
-import com.hosmos.linkind.models.IpDetail;
 import com.hosmos.linkind.models.Link;
 import com.hosmos.linkind.models.Visit;
-import com.hosmos.linkind.utils.LinkShortener;
 import com.hosmos.linkind.utils.ExtractorUtils;
+import com.hosmos.linkind.utils.LinkShortener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Random;
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Component
@@ -148,28 +148,58 @@ public class LinkServiceImpl implements LinkService {
         logger.trace(String.format("visitor details. [Ip: %s][browser_name: %s][browser_version: %s][os: %s]", visit.getIp(), visit.getBrowser_name(), visit.getBrowser_version(), visit.getOs()));
 
 
-        try {
+//        try {
+        linkMapper.saveVisit(visit);
+        return link.getUrl();
+//        }
+
+//        finally {
+//
+//            try {
+//                logger.trace(String.format("Extract ip details %s", remoteAddr));
+//                IpDetail extractedDetail = ExtractorUtils.findCountry(remoteAddr);
+//
+//                logger.trace(String.format("Details extracted.[IP: %s] [COUNTRY: %s] [iso2: %s]", remoteAddr, extractedDetail.getCountry(), extractedDetail.getCountryCode()));
+//                if (extractedDetail.getStatus().equals("success")) {
+//
+//                    logger.trace("Update visitor country field");
+//                    linkMapper.updateCountry(visit.getId(), extractedDetail);
+//                }
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                logger.error(String.format("Could not extract country name for IP. [IP: %s]", remoteAddr));
+//            }
+//
+//
+//        }
+    }
+
+    @Override
+    @Transactional
+    public void fakeVisits() {
+
+        Random random = new Random();
+
+        for (int i = 0; i < 822; i++) {
+            StringBuilder builder = new StringBuilder();
+            builder.append(random.nextInt(255 - 1) + 1);
+            builder.append('.');
+            builder.append(random.nextInt(255 - 1) + 1);
+            builder.append('.');
+            builder.append(random.nextInt(255 - 1) + 1);
+            builder.append('.');
+            builder.append(random.nextInt(255 - 1) + 1);
+
+            Visit visit = new Visit();
+            visit.setId(linkMapper.getVisitId());
+            visit.setIp(builder.toString());
+            visit.setLink_id(15);
+
             linkMapper.saveVisit(visit);
-            return link.getUrl();
-        } finally {
-
-            try {
-                logger.trace(String.format("Extract ip details %s", remoteAddr));
-                IpDetail extractedDetail = ExtractorUtils.findCountry(remoteAddr);
-
-                logger.trace(String.format("Details extracted.[IP: %s] [COUNTRY: %s] [iso2: %s]", remoteAddr, extractedDetail.getCountry(), extractedDetail.getCountryCode()));
-                if (extractedDetail.getStatus().equals("success")) {
-
-                    logger.trace("Update visitor country field");
-                    linkMapper.updateCountry(visit.getId(), extractedDetail);
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                logger.error(String.format("Could not extract country name for IP. [IP: %s]", remoteAddr));
-            }
-
-
         }
+
+        logger.trace("2000 new ips created.");
+
     }
 }

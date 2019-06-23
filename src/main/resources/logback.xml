@@ -3,11 +3,11 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <logger name="org.springframework" level="ALL" additivity="false">
+    <logger name="org.springframework" level="none" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
 
