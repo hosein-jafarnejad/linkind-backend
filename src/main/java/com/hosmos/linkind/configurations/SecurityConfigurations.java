@@ -38,21 +38,21 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/user/**", "/role/**").authenticated()
 //                .access("hasAnyRole('ROLE_ADMIN_LEVEL_ONE','ROLE-ADMIN_LEVEL_TWO') or authentication.principal.isAdmin()")
 
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
                 .and()
 
                 // Login
                 .formLogin()
                 .loginProcessingUrl("/login")
-                .usernameParameter("username").passwordParameter("password");
+                .usernameParameter("username").passwordParameter("password")
                 //.successHandler(restAuthenticationSuccessHandler())
                // .failureHandler(new SimpleUrlAuthenticationFailureHandler())
 //                .permitAll()
-//                .and()
+                .and()
 
                 // Logout settings
-//                .logout();
-//                .permitAll();
+                .logout().logoutUrl("/logout")
+                .permitAll();
     }
 
     @Override

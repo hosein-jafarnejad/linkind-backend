@@ -30,7 +30,7 @@ public class LoginUserDetailsService implements UserDetailsService {
         logger.trace("START_AUTHENTICATION.[USERNAME:" + username + "]");
         UserWithPassword loadedUser;
         try {
-            loadedUser = userService.getWithUsername(username);
+            loadedUser = userService.getWithEmail(username);
 
             if (loadedUser.getActivationDate() == null) {
                 throw new UsernameNotFoundException("نام کاربری یافت نشد.");

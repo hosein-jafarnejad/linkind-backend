@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 @Service("userService")
 public interface UserService {
 
-    UserWithPassword getWithUsername(String username);
+    UserWithPassword getWithEmail(String emailAddress);
 
-    void createNewUser(UserWithPassword userWithPassword);
+    void registerNewUser(UserWithPassword userWithPassword);
+
+    void updateUser(UserWithPassword userWithPassword);
 }
